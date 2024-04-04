@@ -1,27 +1,23 @@
 import axios from "axios";
 
-const baseURL = "https://api.themoviedb.org/3";
-
-const tmdbToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOTY5MWM4ZjU4ZDE3YTJkMWVhNzM5OGJlNDMyMmIzOCIsInN1YiI6IjY2MGNkMWFlMzU4MThmMDE3YzNiYWYyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oc47Y0VtSfwed7hS7RO5BZL7NQKTbJE59l-qEykCat0"
-
-if (!tmdbToken) {
-    throw new Error("Token is not provided");
-}
+const BASE_URL = "https://api.themoviedb.org/3";
+const TMDB_TOKEN = import.meta.env.VITE_APP_TMDB_TOKEN;
 
 const headers = {
-    Authorization: `Bearer ${tmdbToken}`,
-}
+    Authorization: "bearer " + TMDB_TOKEN,
+};
 
-const fetchData = async (url, params) => {
+const fetchDataFromApi = async (url, params) => {
     try {
-        const { data } = await axios.get(baseURL + url, {
+        const { data } = await axios.get(BASE_URL + url, {
             headers,
-            params
+            params,
         });
         return data;
-    } catch (error) {
-        throw new Error(`Error fetching data from ${url}: ${error.message}`);
+    } catch (err) {
+        console.log(err);
+        return err;
     }
-}
+};
 
-export default fetchData;
+export default fetchDataFromApi;
