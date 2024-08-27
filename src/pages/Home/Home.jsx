@@ -1,13 +1,21 @@
 
-import HeroBanner from './heroBanner/HeroBanner'
 
-function Home() {
-  return (
-    <div className='homePage'>
-      <h2>Home</h2>
-      <HeroBanner></HeroBanner>
-    </div>
-  )
-}
+import "./style.scss";
 
-export default Home
+import HeroBanner from "./heroBanner/HeroBanner";
+import Trending from "./trending/Trending";
+import Popular from "./popular/Popular";
+import TopRated from "./topRated/TopRated";
+
+const Home = () => {
+    return (
+        <div className="homePage">
+            <HeroBanner />
+            <Trending />
+            <Popular />
+            <TopRated />
+        </div>
+    );
+};
+
+export default Home;
