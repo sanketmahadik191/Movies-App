@@ -9,12 +9,12 @@ import "./style.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
-const Head = () => {
-    const [show, setShow] = useState("top");
+const Header = () => {
+    const [scrollPosition, setScrollPosition] = useState("top");
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [mobileMenu, setMobileMenu] = useState(false);
-    const [query, setQuery] = useState("");
-    const [showSearch, setShowSearch] = useState("");
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -22,71 +22,61 @@ const Head = () => {
         window.scrollTo(0, 0);
     }, [location]);
 
-    const controlNavbar = () => {
+    const handleScroll = () => {
         if (window.scrollY > 200) {
-            if (window.scrollY > lastScrollY && !mobileMenu) {
-                setShow("hide");
+            if (window.scrollY > lastScrollY && !isMobileMenuOpen) {
+                setScrollPosition("hide");
             } else {
-                setShow("show");
+                setScrollPosition("show");
             }
         } else {
-            setShow("top");
+            setScrollPosition("top");
         }
         setLastScrollY(window.scrollY);
     };
 
     useEffect(() => {
-        window.addEventListener("scroll", controlNavbar);
+        window.addEventListener("scroll", handleScroll);
         return () => {
-            window.removeEventListener("scroll", controlNavbar);
+            window.removeEventListener("scroll", handleScroll);
         };
     }, [lastScrollY]);
 
-    const searchQueryHandler = (event) => {
-        if (event.key === "Enter" && query.length > 0) {
-            navigate(`/search/${query}`);
+    const handleSearchQuery = (event) => {
+        if (event.key === "Enter" && searchQuery.trim()) {
+            navigate(`/search/${searchQuery}`);
             setTimeout(() => {
-                setShowSearch(false);
+                setIsSearchVisible(false);
             }, 1000);
         }
     };
 
     const openSearch = () => {
-        setMobileMenu(false);
-        setShowSearch(true);
+        setIsMobileMenuOpen(false);
+        setIsSearchVisible(true);
     };
 
-    const openMobileMenu = () => {
-        setMobileMenu(true);
-        setShowSearch(false);
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen((prevState) => !prevState);
+        setIsSearchVisible(false);
     };
 
-    const navigationHandler = (type) => {
-        if (type === "movie") {
-            navigate("/explore/movie");
-        } else {
-            navigate("/explore/tv");
-        }
-        setMobileMenu(false);
+    const navigateTo = (path) => {
+        navigate(`/explore/${path}`);
+        setIsMobileMenuOpen(false);
     };
 
     return (
-        <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
+        <header className={`header ${isMobileMenuOpen ? "mobileView" : ""} ${scrollPosition}`}>
             <ContentWrapper>
                 <div className="logo" onClick={() => navigate("/")}>
-                    <img src={logo} alt="" />
+                    <img src={logo} alt="Movix Logo" />
                 </div>
                 <ul className="menuItems">
-                    <li
-                        className="menuItem"
-                        onClick={() => navigationHandler("movie")}
-                    >
+                    <li className="menuItem" onClick={() => navigateTo("movie")}>
                         Movies
                     </li>
-                    <li
-                        className="menuItem"
-                        onClick={() => navigationHandler("tv")}
-                    >
+                    <li className="menuItem" onClick={() => navigateTo("tv")}>
                         TV Shows
                     </li>
                     <li className="menuItem">
@@ -96,26 +86,24 @@ const Head = () => {
 
                 <div className="mobileMenuItems">
                     <HiOutlineSearch onClick={openSearch} />
-                    {mobileMenu ? (
-                        <VscChromeClose onClick={() => setMobileMenu(false)} />
+                    {isMobileMenuOpen ? (
+                        <VscChromeClose onClick={toggleMobileMenu} />
                     ) : (
-                        <SlMenu onClick={openMobileMenu} />
+                        <SlMenu onClick={toggleMobileMenu} />
                     )}
                 </div>
             </ContentWrapper>
-            {showSearch && (
+            {isSearchVisible && (
                 <div className="searchBar">
                     <ContentWrapper>
                         <div className="searchInput">
                             <input
                                 type="text"
-                                placeholder="Search for a movie or tv show...."
-                                onChange={(e) => setQuery(e.target.value)}
-                                onKeyUp={searchQueryHandler}
+                                placeholder="Search for a movie or TV show..."
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyUp={handleSearchQuery}
                             />
-                            <VscChromeClose
-                                onClick={() => setShowSearch(false)}
-                            />
+                            <VscChromeClose onClick={() => setIsSearchVisible(false)} />
                         </div>
                     </ContentWrapper>
                 </div>
@@ -124,4 +112,4 @@ const Head = () => {
     );
 };
 
-export default Head;
+export default Header;
