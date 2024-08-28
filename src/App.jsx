@@ -6,7 +6,7 @@ import { fetchDataFromApi } from "./utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import { getApiConfiguration, getGenres } from "./store/slices";
 
-import Header from "./components/header/Header1.jsx";
+import Header1 from "./components/header/Header1.jsx";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
 import Details from "./pages/details/Details";
@@ -58,7 +58,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Header />
+            <Header1 />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/:mediaType/:id" element={<Details />} />
