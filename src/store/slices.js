@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const homeSlice = createSlice({
+export const slices = createSlice({
     name: "home",
     initialState: {
         url: {},
@@ -17,9 +17,9 @@ export const homeSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getApiConfiguration, getGenres } = homeSlice.actions;
+export const { getApiConfiguration, getGenres } = slices.actions;
 
-export default homeSlice.reducer;
+export default slices.reducer;
 
 
 
