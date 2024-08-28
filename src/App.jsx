@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchDataFromApi } from "./utils/api";
 import { getApiConfiguration, getGenres } from "./store/slices";
 
-import Header from "./components/header/Head";
+import Header from "./components/head/Head";
 import Footer from "./components/footer/Footer";
 import Home from "./pages/home/Home";
 import Details from "./pages/details/Details";
@@ -61,8 +61,9 @@ function App() {
     };
 
     return (
+        <>
         <BrowserRouter>
-            <Header />
+           <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/:mediaType/:id" element={<Details />} />
@@ -72,6 +73,7 @@ function App() {
             </Routes>
             <Footer />
         </BrowserRouter>
+        </>
     );
 }
 
