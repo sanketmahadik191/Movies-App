@@ -9,7 +9,7 @@ import "./style.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
-const Header = () => {
+const Head = () => {
     const [show, setShow] = useState("top");
     const [lastScrollY, setLastScrollY] = useState(0);
     const [mobileMenu, setMobileMenu] = useState(false);
@@ -124,4 +124,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default Head;
